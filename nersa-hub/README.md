@@ -24,7 +24,7 @@ The folder is a static site with its own `vercel.json` (no build, `noindex`
 header, long cache on fonts). With a Vercel token in `VERCEL_TOKEN`:
 
 ```bash
-nersa-hub/tools/deploy-vercel.sh        # project nersa-ntell → nersa-ntell.vercel.app
+nersa-hub/tools/deploy-vercel.sh        # project ntell-nersa → ntell-nersa.vercel.app
 ```
 
 Or import the repository in the Vercel dashboard with **Root Directory** set
