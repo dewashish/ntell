@@ -30,6 +30,10 @@ assets/fonts/           Newsreader, Stack Sans Headline, Stack Sans Text, JetBra
 assets/vendor/          GSAP 3.13 (core, ScrollTrigger, SplitText), Lenis 1.3 and three.js r180
 ```
 
+`nersa-hub/` is a separate piece of work: a front-end prototype of a regulatory
+data hub and market surveillance platform, with its own README. It is not
+linked from the site and carries `noindex`.
+
 ## Page outline
 
 1. Hero: "We build AI-native enterprises", with the signal orb in its field

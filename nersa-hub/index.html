@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en-ZA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Regulatory Data Hub · market monitoring and surveillance prototype</title>
+  <meta name="description" content="Front-end prototype of a regulatory data hub and electricity market surveillance platform. All data is synthetic.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27%3E%3Crect width=%2724%27 height=%2724%27 rx=%275%27 fill=%27%230b2545%27/%3E%3Cpath d=%27M6 8h12M6 12h12M6 16h7%27 stroke=%27%23fff%27 stroke-width=%272%27 stroke-linecap=%27round%27/%3E%3Ccircle cx=%2717%27 cy=%2716%27 r=%271.6%27 fill=%27%23e0a100%27/%3E%3C/svg%3E">
+  <link rel="preload" href="assets/fonts/ibm-plex-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="side" id="side"></aside>
+    <div class="main">
+      <header class="top" id="top"></header>
+      <div id="banner"></div>
+      <main id="view" tabindex="-1"></main>
+    </div>
+  </div>
+  <div class="scrim" id="scrim" data-act="close"></div>
+  <aside class="drawer" id="drawer" aria-label="Detail"></aside>
+  <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <noscript><p style="padding:24px;font-family:sans-serif">This prototype needs JavaScript.</p></noscript>
+
+  <script src="js/core.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/agent.js"></script>
+  <script src="js/p-workspace.js"></script>
+  <script src="js/p-monitor.js"></script>
+  <script src="js/p-enforce.js"></script>
+  <script src="js/p-data.js"></script>
+  <script src="js/p-govern.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
