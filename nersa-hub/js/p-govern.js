@@ -10,7 +10,7 @@
     render: function () {
       var tab = R.tab('code', 'changes'), wait = ['ap-map1', 'ap-map2'].filter(function (k) { return !R.S.approvals[k]; }).length;
       var h = U.phead('Market Code', 'Screens are mapped clause by clause to the Market Code and the platform conditions. When a clause changes, the affected screens are found and a re-mapping is proposed for approval.', null, '<span class="tag">Rev 2.4 received 12 Jul 2027</span>');
-      h += U.kpis([{ label: 'Clauses tracked', value: '212', note: 'Market Code, Conduct Rules, platform conditions' }, { label: 'Mapped to a screen', value: '38', note: 'the rest are informational' }, { label: 'Changed in Rev 2.4', value: '4', note: 'compared clause by clause' }, { label: 'Mappings waiting for approval', value: wait, note: wait ? 'screens run on the previous wording' : 'all screens current', tone: wait ? 'warn' : 'good' }]);
+      h += U.kpis([{ label: 'Clauses tracked', value: '212', note: 'Code, Conduct Rules, conditions' }, { label: 'Mapped to a screen', value: '38', note: 'the rest are informational' }, { label: 'Changed in Rev 2.4', value: '4', note: 'compared clause by clause' }, { label: 'Mappings waiting for approval', value: wait, note: wait ? 'screens run on the previous wording' : 'all screens current', tone: wait ? 'warn' : 'good' }]);
       h += '<div class="mt16"></div>' + U.tabs('code', [{ id: 'changes', label: 'Changes in Rev 2.4', n: 4 }, { id: 'map', label: 'Clause-to-screen map' }, { id: 'params', label: 'Parameters in force' }], tab);
       if (tab === 'changes') {
         h += U.card('', '<ul class="list">' + D.codeChanges.map(function (c) {

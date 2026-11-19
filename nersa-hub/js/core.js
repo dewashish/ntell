@@ -6,7 +6,7 @@
 
   R.cfg = {
     product: 'Regulatory Data Hub',
-    tenant: 'NERSA · Market Surveillance Unit',
+    tenant: 'NERSA Market Surveillance',
     agent: 'AVA',                       // the always-on analyst agent's name: change here only
     agentRole: 'Surveillance analyst agent',
     user: { name: 'Naledi Mokoena', initials: 'NM', title: 'Senior market analyst, MSU' },
@@ -132,14 +132,16 @@
   U.tone = function (score) { return score >= 85 ? 'crit' : score >= 70 ? 'high' : score >= 50 ? 'warn' : ''; };
   U.sevName = function (score) { return score >= 85 ? 'Critical' : score >= 70 ? 'High' : score >= 50 ? 'Medium' : 'Low'; };
   U.score = function (score, lg) { return '<span class="score ' + U.tone(score) + (lg ? ' lg' : '') + '" title="Priority score ' + score + ' of 100 · ' + U.sevName(score) + '">' + score + '</span>'; };
-  U.ai = function (label) { return '<span class="ai" title="Produced by the agent. Model and rule versions are stamped on the audit record.">' + icon('agent') + esc(label || (R.cfg.agent + ' draft')) + '</span>'; };
+  U.ai = function (label) { return '<span class="ai" title="Produced by the agent. Model and rule versions are stamped on the audit record."><span class="avatar sm agent" style="width:16px;height:16px"></span>' + esc(label || (R.cfg.agent + ' draft')) + '</span>'; };
+  /* RAG status: r, a or g. Always a dot and a word, never colour alone. */
+  U.rag = function (level, label) { return '<span class="rag ' + level + '"><i></i>' + esc(label || { r: 'Red', a: 'Amber', g: 'Green' }[level]) + '</span>'; };
   U.cite = function (label, href) { return '<a class="cite" href="' + href + '">' + esc(label) + '</a>'; };
   U.kpi = function (o) {
     var el = o.href ? 'a' : 'div';
     return '<' + el + (o.href ? ' href="' + o.href + '"' : '') + ' class="kpi ' + (o.tone || '') + '">' +
       '<div class="kpi__l">' + esc(o.label) + '</div>' +
       '<div class="kpi__v">' + o.value + (o.unit ? '<small>' + esc(o.unit) + '</small>' : '') + '</div>' +
-      '<div class="kpi__n">' + (o.note || '&nbsp;') + '</div></' + el + '>';
+      '<div class="kpi__n">' + (o.tone ? '<span class="rag ' + { crit: 'r', warn: 'a', good: 'g' }[o.tone] + '" title="' + { crit: 'Red', warn: 'Amber', good: 'Green' }[o.tone] + '"><i></i></span>' : '') + (o.note || '&nbsp;') + '</div></' + el + '>';
   };
   U.kpis = function (list) { return '<div class="kpis">' + list.map(U.kpi).join('') + '</div>'; };
   U.card = function (title, body, o) {
@@ -197,7 +199,7 @@
     var w = 84, h = 22, mn = Math.min.apply(null, data), mx = Math.max.apply(null, data), d = mx - mn || 1;
     var pts = data.map(function (v, i) { return [(i / (data.length - 1)) * (w - 4) + 2, h - 3 - ((v - mn) / d) * (h - 6)]; });
     var last = pts[pts.length - 1];
-    return '<svg class="spark" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true"><path d="M' + pts.map(function (p) { return p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join('L') + '" fill="none" stroke="' + (color || '#98a2b3') + '" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="2.5" fill="' + (hi || color || '#0b2545') + '"/></svg>';
+    return '<svg class="spark" viewBox="0 0 ' + w + ' ' + h + '" aria-hidden="true"><path d="M' + pts.map(function (p) { return p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join('L') + '" fill="none" stroke="' + (color || '#a29ea9') + '" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="2.5" fill="' + (hi || color || '#17090c') + '"/></svg>';
   };
   U.hbar = function (rows, o) {
     o = o || {};

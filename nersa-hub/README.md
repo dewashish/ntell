@@ -25,7 +25,7 @@ python3 nersa-hub/tools/bundle.py out/regulatory-data-hub.html
 ```
 
 That inlines the styles, scripts and fonts into a single HTML file of about
-480 kB.
+680 kB.
 
 ## The story in the data
 
@@ -78,10 +78,24 @@ js/agent.js         The agent: brief, worklist, watches, approvals, question eng
 js/p-*.js           One file per navigation group
 js/app.js           Navigation, top bar, role view, boot
 tools/bundle.py     Single-file build
-assets/fonts/       IBM Plex Sans and IBM Plex Mono (SIL Open Font License)
+js/brand.js         ntell.ai logo, lockup and AVA avatar, inlined from /assets
+assets/fonts/       Stack Sans, Newsreader and JetBrains Mono, copied from the site
 ```
 
 No framework and no build step. Scripts are plain files loaded in order.
+
+## Theme
+
+The app wears the ntell.ai brand from the company site: ink `#17090C`,
+crimson `#D7143C` and paper `#F4F4F6` on a white page, Stack Sans for
+everything you read, Newsreader for the one statement at the top of the
+brief, and the signal orb as the agent's on-watch light. Plum `#5B2A6E` is
+the quiet second colour for selection, citations and bars.
+
+Red, amber and green are kept for status only and always come with a word
+or a number: the status strip on Today, the dot on every KPI, alert scores,
+feed and case states. In charts the measure is ink, the comparator is grey
+and crimson marks the anomaly. Tokens sit at the top of `css/app.css`.
 
 ## Things to know
 

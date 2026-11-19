@@ -5,7 +5,7 @@
   var openWhy = {};
 
   /* ======================= TODAY ======================= */
-  var BLOCKS = [['brief', 'Morning brief'], ['since', 'Since you signed off'], ['prio', 'Priorities'], ['data', 'Data alerts'], ['tonight', 'Tonight’s watch'], ['deadlines', 'Clocks and deadlines'], ['approvals', 'Waiting for a decision'], ['activity', 'Agent activity overnight'], ['pins', 'Pinned answers']];
+  var BLOCKS = [['brief', 'Morning brief'], ['rag', 'Status at a glance'], ['since', 'Since you signed off'], ['prio', 'Priorities'], ['data', 'Data alerts'], ['tonight', 'Tonight’s watch'], ['deadlines', 'Clocks and deadlines'], ['approvals', 'Waiting for a decision'], ['activity', 'Agent activity overnight'], ['pins', 'Pinned answers']];
   function shown(id) { return !R.S.hidden[id]; }
 
   function actBtn(a, i) {
@@ -51,6 +51,15 @@
         { label: 'System price now', value: f.n(D.priceToday[D.NOW]), unit: 'R/MWh', note: 'within the 30-day norm', href: '#/market' }
       ]);
 
+      var ragCells = [
+        ['r', 'Market conduct', '1 critical alert, in an open case', 'Kestrel Power, 13 Jul. ' + f.zarm(D.harmTotal) + ' estimated cost.', 'surveillance'],
+        ['a', 'Tonight’s market', 'Margin ' + f.pct(D.marginToday[37]) + ' at 18:30', 'Below the 6% watch level; one pivotal supplier.', 'market'],
+        ['a', 'Data health', '12 of 13 feeds on time', 'One reconciliation outside tolerance; 3 records held.', 'quality'],
+        ['a', 'Operator', '2 conditions under query', 'One re-clear variance; one report mismatch.', 'oversight'],
+        ['g', 'Triage clocks', 'All within SLA', 'Next due 10:36, alert A-1095.', 'surveillance'],
+        ['g', 'Platform', '99.94% available', 'No incidents; every sign-in with a second factor.', 'security']];
+      var rag = '<div class="ragrow" aria-label="Status at a glance">' + ragCells.map(function (c) { var ok = R.can(c[4]); return '<' + (ok ? 'a href="#/' + c[4] + '"' : 'div') + ' class="ragcell ' + c[0] + '"><div class="row" style="justify-content:space-between"><span class="muted" style="font-size:11.5px">' + c[1] + '</span>' + U.rag(c[0]) + '</div><b>' + c[2] + '</b><p>' + c[3] + '</p></' + (ok ? 'a' : 'div') + '>'; }).join('') + '</div>';
+
       var prio = U.card('Priorities', '<ul>' + list.map(function (p) { return prioItem(p, AG.priorities.indexOf(p) + 1); }).join('') + '</ul>', {
         flush: true, sub: open + ' open · ranked by ' + A + ', reordered by you',
         act: U.seg('prio-filter', [{ id: 'all', label: 'All' }, { id: 'decision', label: 'Decisions' }, { id: 'triage', label: 'Triage' }, { id: 'data', label: 'Data' }, { id: 'other', label: 'Other' }], filt),
@@ -62,9 +71,9 @@
         return '<li><span class="dot ' + a.sev + '" style="margin-top:5px"></span><div class="grow"><div class="t1">' + esc(a.title) + '</div><div class="t2">' + esc(a.detail) + '</div><div class="row mt4"><span class="tag mono">' + a.id + '</span><span class="muted" style="font-size:12px">' + esc(a.ds) + '</span><span class="grow"></span>' + (st !== 'Open' ? U.tag(st, 'good') : '') + '<a class="btn sm" href="' + a.go + '">' + esc(a.action) + '</a></div></div></li>';
       }).join('') + '</ul>', { flush: true, sub: D.dataAlerts.filter(function (a) { return a.status === 'Open'; }).length + ' open', act: '<a class="btn sm ghost" href="#/quality">Data Quality</a>' });
 
-      var tonight = U.card('Tonight’s watch', C.xy({ h: 150, x: D.times, xEvery: 8, xStart: 0, ymin: 0, ymax: 50, yticks: 5, series: [{ name: 'Margin', data: D.marginToday, color: '#2a78d6', dashFrom: D.NOW }], hlines: [{ v: 6, label: 'Watch level 6%', left: 1 }], cursor: D.NOW, cursorLabel: 'Now', marks: [{ i: 37, label: f.pct(D.marginToday[37]), dy: -8 }], yfmt: function (v) { return v + '%'; }, tfmt: function (v) { return f.pct(v); }, tipNote: function (i) { return i > D.NOW ? 'Forecast' : 'Actual'; }, label: 'Forecast supply margin today' }) +
+      var tonight = U.card('Tonight’s watch', C.xy({ h: 150, x: D.times, xEvery: 8, xStart: 0, ymin: 0, ymax: 50, yticks: 5, series: [{ name: 'Margin', data: D.marginToday, color: '#17090c', dashFrom: D.NOW }], hlines: [{ v: 6, label: 'Watch level 6%', left: 1 }], cursor: D.NOW, cursorLabel: 'Now', marks: [{ i: 37, label: f.pct(D.marginToday[37]), dy: -8 }], yfmt: function (v) { return v + '%'; }, tfmt: function (v) { return f.pct(v); }, tipNote: function (i) { return i > D.NOW ? 'Forecast' : 'Actual'; }, label: 'Forecast supply margin today' }) +
         '<ul class="mt8" style="font-size:12.5px">' + [['Peak demand', f.mw(D.demandToday[37]) + ' at 18:30'], ['Pivotal supplier', 'Kestrel Power, 17:30–19:30 (RSI ' + f.n(D.rsiToday[37], 2) + ')'], ['KST-2', 'Declared available · metered 588 MW'], ['Watches armed', 'W-01, W-02, W-03']].map(function (r) { return '<li class="row" style="padding:3px 0"><span class="muted" style="width:112px;flex:none">' + r[0] + '</span><span>' + r[1] + '</span></li>'; }).join('') + '</ul>',
-        { sub: 'Supply margin, actual then forecast', act: '<a class="btn sm ghost" href="#/agent">Watches</a>' });
+        { sub: 'margin, then forecast', act: '<a class="btn sm ghost" href="#/agent">Watches</a>' });
 
       var deadlines = U.card('Clocks and deadlines', U.table([{ h: 'Due', k: 0, cls: 'mono nowrap' }, { h: 'What', k: 1 }, { h: '', k: 2 }], [
         ['10:00', 'Information request IR-0047-01 to issue', R.S.flags.irSent ? U.tag('With MSU lead', 'info') : U.tag('Draft', 'warn')],
@@ -92,9 +101,9 @@
 
       if (board) {
         since = U.kpis([{ label: 'System price now', value: f.n(D.priceToday[D.NOW]), unit: 'R/MWh', note: 'within the 30-day norm', href: '#/market' }, { label: 'Estimated cost under investigation', value: f.zarm(D.harmTotal, 0), note: 'one case, six intervals', tone: 'crit', href: '#/reports' }, { label: 'Open cases', value: '7', note: '4 high priority or above', href: '#/cases' }, { label: 'Feeds on time', value: '12<small>of 13</small>', note: 'one late, since recovered' }, { label: 'Platform availability', value: '99.94%', note: 'condition: at least 99.9%', tone: 'good', href: '#/oversight' }]);
-        return h + '<div class="stack">' + brief + since + '<div class="note info" style="max-width:760px">The Board role sees the brief and summary figures. Worklists, participant-level detail and agent proposals belong to the MSU. <a href="#/reports">Open the Board view</a></div></div>';
+        return h + '<div class="stack">' + brief + rag + since + '<div class="note info" style="max-width:760px">The Board role sees the brief and summary figures. Worklists, participant-level detail and agent proposals belong to the MSU. <a href="#/reports">Open the Board view</a></div></div>';
       }
-      return h + '<div class="stack">' + (shown('brief') ? brief : '') + (shown('since') ? since : '') +
+      return h + '<div class="stack">' + (shown('brief') ? brief : '') + (shown('rag') ? rag : '') + (shown('since') ? since : '') +
         '<div class="grid g-2-1"><div class="stack">' + (shown('prio') ? prio : '') + (shown('activity') ? activity : '') + '</div>' +
         '<div class="stack">' + (shown('approvals') ? approvals : '') + (shown('data') ? dataAlerts : '') + (shown('tonight') ? tonight : '') + (shown('deadlines') ? deadlines : '') + (shown('pins') ? pins : '') + '</div></div></div>';
     }
@@ -162,14 +171,14 @@
     id: 'agent', title: 'Agent', group: 'Workspace', icon: 'agent',
     render: function () {
       var tab = R.tab('agent', 'activity'), pend = AG.pending(), all = AG.watches.concat(R.S.watches);
-      var h = U.phead(A + ', the always-on analyst', 'Screens every interval, correlates across sources, explains what it finds and ranks it. It proposes; people decide. Everything it does is logged with its model and rule versions.', null,
-        '<span class="watch"><span class="pulse"></span>On watch · last cycle <span class="mono" id="watch-last">' + AG.activity[0][0] + '</span></span>');
+      var h = '<div class="agenthead"><span class="avatar lg agent" role="img" aria-label="' + A + '"></span><div class="grow">' + U.phead(A + ', the always-on analyst', 'Screens every interval, correlates across sources, explains what it finds and ranks it. It proposes; people decide. Everything it does is logged with its model and rule versions.', null,
+        '<span class="watch"><span class="pulse"></span>On watch · last cycle <span class="mono" id="watch-last">' + AG.activity[0][0] + '</span></span>') + '</div></div>';
       h += U.kpis([
-        { label: 'Market events screened today', value: f.n(412860), note: 'since 00:00' },
+        { label: 'Events screened today', value: f.n(412860), note: 'since 00:00' },
         { label: 'Screen runs', value: '160', note: '16 intervals × 10 families' },
         { label: 'Alerts raised, 24 h', value: '4', note: '1 critical', tone: 'crit', href: '#/surveillance' },
         { label: 'Explanations tested, 24 h', value: '14', note: '9 refuted, 2 supported' },
-        { label: 'Waiting for approval', value: pend.length, note: 'no outward action without one', tone: pend.length ? 'warn' : 'good' },
+        { label: 'Waiting for approval', value: pend.length, note: 'before any outward action', tone: pend.length ? 'warn' : 'good' },
         { label: 'Detection to alert, median', value: '2<small>min</small>', note: '30 days' }
       ]);
       h += '<div class="mt16"></div>' + U.tabs('agent', [{ id: 'activity', label: 'Activity' }, { id: 'watches', label: 'Standing watches', n: all.length }, { id: 'approvals', label: 'Approvals', n: pend.length }, { id: 'rules', label: 'Schedule and guardrails' }, { id: 'perf', label: 'Performance and learning' }], tab);
@@ -197,7 +206,7 @@
       }
       if (tab === 'perf') {
         var fp = [38, 36, 37, 33, 31, 29, 30, 27, 26, 24, 23, 21];
-        h += '<div class="grid g2">' + U.card('Alerts closed as false positive', C.xy({ h: 200, x: D.months, series: [{ name: 'False positives', data: fp, color: '#2a78d6' }], ymin: 0, ymax: 50, hlines: [{ v: 20, label: 'Target 20%' }], yfmt: function (v) { return v + '%'; }, tfmt: function (v) { return v + '%'; }, marks: [{ i: 11, label: '21%' }] }), { sub: 'share of dispositioned alerts, by month', foot: 'Falling as thresholds are calibrated on live dispositions.' }) +
+        h += '<div class="grid g2">' + U.card('Alerts closed as false positive', C.xy({ h: 200, x: D.months, series: [{ name: 'False positives', data: fp, color: '#17090c' }], ymin: 0, ymax: 50, hlines: [{ v: 20, label: 'Target 20%' }], yfmt: function (v) { return v + '%'; }, tfmt: function (v) { return v + '%'; }, marks: [{ i: 11, label: '21%' }] }), { sub: 'share of dispositioned alerts, by month', foot: 'Falling as thresholds are calibrated on live dispositions.' }) +
           U.card('Screens: fires and confirmations, 30 days', U.table([{ h: 'Screen', f: function (s) { return '<span class="t1">' + s.name + '</span>'; } }, { h: 'Fired', k: 'fires', num: 1 }, { h: 'Confirmed', k: 'confirmed', num: 1 }, { h: 'Precision', num: 1, f: function (s) { return s.fires ? f.pct(s.confirmed / s.fires * 100, 0) : '–'; } }, { h: '', f: function (s) { return U.meter(s.fires ? s.confirmed / s.fires : 0, 'ink'); }, w: '90px' }], D.screens, { dense: true }), { flush: true }) + '</div>' +
           '<div class="mt12">' + U.card('Proposed recalibration', '<div class="row start gap16"><div class="grow"><div class="t1" style="font-weight:600">SCR-04 Bid pattern change: raise the threshold from 3.0σ to 3.4σ</div><p class="muted mt4">Backtest on 90 days of dispositions: 21 alerts become 10. All 11 removed were closed as explained. Both confirmed alerts stay above the new threshold (4.1σ and 5.6σ).</p></div>' + (R.S.approvals['ap-thr'] ? U.tag(R.S.approvals['ap-thr'].v, 'good') : '<button class="btn pri" data-write data-act="approve" data-id="ap-thr">Approve</button><button class="btn" data-write data-act="decline" data-id="ap-thr">Decline</button>') + '</div>', { sub: 'From the monthly threshold review', act: U.ai(A + ' proposal') }) + '</div>';
       }

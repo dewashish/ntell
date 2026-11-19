@@ -23,7 +23,7 @@
   }
   function side(cur) {
     var c = counts();
-    var h = '<div class="brand"><svg class="brand__mark" viewBox="0 0 24 24" aria-hidden="true"><rect width="24" height="24" rx="5" fill="#0b2545"/><path d="M6 8h12M6 12h12M6 16h7" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="17" cy="16" r="1.6" fill="#e0a100"/></svg><div><div class="brand__name">' + R.cfg.product + '</div><div class="brand__sub">' + R.cfg.tenant + '</div></div></div><nav class="nav" aria-label="Main">';
+    var h = '<div class="brand"><span class="brand__mark">' + R.brand.icon + '</span><div><div class="brand__name">' + R.cfg.product + '</div><div class="brand__sub">' + R.cfg.tenant + '</div></div></div><nav class="nav" aria-label="Main">';
     NAV.forEach(function (g) {
       var items = g[1].filter(function (id) { return R.pages[id] && R.can(id); });
       if (!items.length) return;
@@ -33,7 +33,7 @@
         h += '<a href="#/' + id + '" class="' + (id === cur ? 'on' : '') + '"' + (id === cur ? ' aria-current="page"' : '') + '>' + icon(R.pages[id].icon) + '<span>' + LABEL[id] + '</span>' + (n ? '<span class="count' + (id === 'surveillance' && c.surveillanceCrit ? ' crit' : '') + '">' + n + '</span>' : '') + '</a>';
       });
     });
-    return h + '</nav><div class="side__foot"><b>Prototype · synthetic data</b><br>Every participant, price and record is invented. Built by SDM Asset Management &amp; Consulting with Potomac Economics.</div>';
+    return h + '</nav><div class="side__foot"><a class="lockup" href="https://ntell.ai" target="_blank" rel="noopener" aria-label="ntell.ai">' + R.brand.lockup + '</a><b>Prototype · synthetic data</b><br>Every participant, price and record is invented.</div>';
   }
   function top(r, pg) {
     var grp = NAV.filter(function (g) { return g[1].indexOf(pg.id) >= 0; })[0];

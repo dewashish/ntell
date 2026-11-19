@@ -5,7 +5,7 @@
   'use strict';
   var R = window.RDH, f = R.f, esc = R.esc;
   var C = R.charts = {}, specs = {}, seq = 0;
-  var INK2 = '#3a4453', GRID = '#eceef2', AXIS = '#c5cad3';
+  var INK2 = '#454049', GRID = '#ededf1', AXIS = '#d1d1da';
 
   function reg(o, kind) { var id = 'c' + (++seq); o.kind = kind; specs[id] = o; return '<div class="chart" data-c="' + id + '" style="min-height:' + (o.h || 220) + 'px"' + (o.label ? ' role="img" aria-label="' + esc(o.label) + '"' : '') + '></div>'; }
   C.xy = function (o) { return reg(o, 'xy'); };
@@ -33,7 +33,7 @@
     /* shaded x ranges */
     (o.bands || []).forEach(function (b) {
       var x0 = X(b.from) - (hasCol ? bw / 2 : 0), x1 = X(b.to) + (hasCol ? bw / 2 : 0);
-      s += '<rect x="' + x0.toFixed(1) + '" y="' + m.t + '" width="' + Math.max(2, x1 - x0).toFixed(1) + '" height="' + ph + '" fill="' + (b.color || '#fff3cf') + '" opacity="' + (b.op || .75) + '"/>';
+      s += '<rect x="' + x0.toFixed(1) + '" y="' + m.t + '" width="' + Math.max(2, x1 - x0).toFixed(1) + '" height="' + ph + '" fill="' + (b.color || '#fbe8ec') + '" opacity="' + (b.op || .75) + '"/>';
       if (b.label) s += '<text class="ann" x="' + (x0 + 4).toFixed(1) + '" y="' + (m.t + 12) + '">' + esc(b.label) + '</text>';
     });
     /* grid and y ticks */
@@ -42,18 +42,18 @@
       s += '<line x1="' + m.l + '" x2="' + (W - m.r) + '" y1="' + y.toFixed(1) + '" y2="' + y.toFixed(1) + '" stroke="' + (Math.abs(v - mn) < 1e-9 ? AXIS : GRID) + '"/>';
       s += '<text x="' + (m.l - 7) + '" y="' + (y + 3.5).toFixed(1) + '" text-anchor="end">' + fy(v) + '</text>';
     }
-    if (o.yunit) s += '<text x="' + m.l + '" y="' + (m.t - 9) + '" text-anchor="start" style="fill:#949cab">' + esc(o.yunit) + '</text>';
+    if (o.yunit) s += '<text x="' + m.l + '" y="' + (m.t - 9) + '" text-anchor="start" style="fill:#a29ea9">' + esc(o.yunit) + '</text>';
     /* x ticks */
     var every = o.xEvery || Math.ceil(n / Math.max(2, Math.floor(pw / 62)));
     for (var i = o.xStart || 0; i < n; i += every) s += '<text x="' + X(i).toFixed(1) + '" y="' + (H - 7) + '" text-anchor="middle">' + esc(o.x[i]) + '</text>';
     /* reference band (for example a ±1σ norm) */
     if (o.band) {
       var up = o.band.hi.map(function (vv, k) { return X(k).toFixed(1) + ' ' + Y(vv).toFixed(1); }), dn = o.band.lo.map(function (vv, k) { return X(k).toFixed(1) + ' ' + Y(Math.max(mn, vv)).toFixed(1); }).reverse();
-      s += '<path d="M' + up.concat(dn).join('L') + 'Z" fill="' + (o.band.color || '#98a2b3') + '" opacity=".16"/>';
+      s += '<path d="M' + up.concat(dn).join('L') + 'Z" fill="' + (o.band.color || '#a29ea9') + '" opacity=".16"/>';
     }
     /* series */
     o.series.forEach(function (se) {
-      var col = se.color || '#2a78d6';
+      var col = se.color || '#17090c';
       if (se.type === 'col') {
         var w = Math.min(24, bw * .72);
         se.data.forEach(function (vv, k) {
@@ -94,14 +94,14 @@
     /* selective direct labels */
     (o.marks || []).forEach(function (mk) {
       var se = o.series[mk.s || 0], vv = mk.v != null ? mk.v : se.data[mk.i], px = X(mk.i), py = Y(vv), right = px > W - 150 || mk.left;
-      s += '<circle cx="' + px.toFixed(1) + '" cy="' + py.toFixed(1) + '" r="4.5" fill="' + (mk.color || se.color || '#2a78d6') + '" stroke="#fff" stroke-width="2"/>';
+      s += '<circle cx="' + px.toFixed(1) + '" cy="' + py.toFixed(1) + '" r="4.5" fill="' + (mk.color || se.color || '#17090c') + '" stroke="#fff" stroke-width="2"/>';
       s += '<text class="lbl" x="' + (px + (right ? -10 : 10)).toFixed(1) + '" y="' + (py + (mk.dy != null ? mk.dy : 4)).toFixed(1) + '" text-anchor="' + (right ? 'end' : 'start') + '">' + esc(mk.label) + '</text>';
     });
     if (o.cursor != null) {
-      s += '<line x1="' + X(o.cursor).toFixed(1) + '" x2="' + X(o.cursor).toFixed(1) + '" y1="' + m.t + '" y2="' + (m.t + ph) + '" stroke="#0b2545" stroke-width="1.5"/>';
+      s += '<line x1="' + X(o.cursor).toFixed(1) + '" x2="' + X(o.cursor).toFixed(1) + '" y1="' + m.t + '" y2="' + (m.t + ph) + '" stroke="#17090c" stroke-width="1.5"/>';
       if (o.cursorLabel) s += '<text class="lbl" x="' + (X(o.cursor) + (X(o.cursor) > W - 90 ? -6 : 6)).toFixed(1) + '" y="' + (m.t + 10) + '" text-anchor="' + (X(o.cursor) > W - 90 ? 'end' : 'start') + '">' + esc(o.cursorLabel) + '</text>';
     }
-    s += '<line class="xh" x1="0" x2="0" y1="' + m.t + '" y2="' + (m.t + ph) + '" stroke="#667080" stroke-width="1" opacity="0"/><g class="xd"></g>';
+    s += '<line class="xh" x1="0" x2="0" y1="' + m.t + '" y2="' + (m.t + ph) + '" stroke="#706b76" stroke-width="1" opacity="0"/><g class="xd"></g>';
     s += '<rect class="hit" x="' + m.l + '" y="' + m.t + '" width="' + pw + '" height="' + ph + '" fill="transparent"' + (o.onPick ? ' style="cursor:pointer"' : '') + '/></svg>';
     el.innerHTML = s;
     el._c = { o: o, X: X, Y: Y, n: n, bw: bw, m: m, hasCol: hasCol };
@@ -116,7 +116,7 @@
     for (var v = 0; v <= ymax; v += 1000) {
       s += '<line x1="' + m.l + '" x2="' + (W - m.r) + '" y1="' + Y(v).toFixed(1) + '" y2="' + Y(v).toFixed(1) + '" stroke="' + (v ? GRID : AXIS) + '"/><text x="' + (m.l - 7) + '" y="' + (Y(v) + 3.5).toFixed(1) + '" text-anchor="end">' + f.n(v) + '</text>';
     }
-    s += '<text x="' + m.l + '" y="' + (m.t - 9) + '" style="fill:#949cab">Offer price, R/MWh, by cumulative MW offered</text>';
+    s += '<text x="' + m.l + '" y="' + (m.t - 9) + '" style="fill:#a29ea9">Offer price, R/MWh, by cumulative MW offered</text>';
     for (var g = 0; g <= total; g += 5000) s += '<text x="' + X(g).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + f.n(g) + '</text>';
     var cum = 0; el._t = [];
     o.tranches.forEach(function (t) {
@@ -127,10 +127,10 @@
     if (o.cf) {                         // counterfactual curve as a stepped outline
       var d = '', c2 = 0;
       o.cf.forEach(function (t) { d += (d ? 'V' : 'M' + X(0).toFixed(1) + ' ') + Y(t.price).toFixed(1) + 'H' + X(Math.min(total, c2 + t.mw)).toFixed(1); c2 += t.mw; });
-      s += '<path d="' + d + '" fill="none" stroke="#0f1826" stroke-width="1.5" stroke-dasharray="4 3"/>';
+      s += '<path d="' + d + '" fill="none" stroke="#17090c" stroke-width="1.5" stroke-dasharray="4 3"/>';
     }
     var dx = X(o.demand);
-    s += '<line x1="' + dx.toFixed(1) + '" x2="' + dx.toFixed(1) + '" y1="' + m.t + '" y2="' + Y(0) + '" stroke="#0f1826" stroke-width="1.5"/>';
+    s += '<line x1="' + dx.toFixed(1) + '" x2="' + dx.toFixed(1) + '" y1="' + m.t + '" y2="' + Y(0) + '" stroke="#17090c" stroke-width="1.5"/>';
     s += '<text class="lbl" x="' + (dx - 6).toFixed(1) + '" y="' + (m.t + 10) + '" text-anchor="end">Demand ' + f.mw(o.demand) + '</text>';
     (o.prices || []).forEach(function (p) {
       s += '<line x1="' + m.l + '" x2="' + dx.toFixed(1) + '" y1="' + Y(p.v).toFixed(1) + '" y2="' + Y(p.v).toFixed(1) + '" stroke="' + INK2 + '" stroke-width="1"/>';
@@ -147,14 +147,14 @@
   var rz; window.addEventListener('resize', function () { clearTimeout(rz); rz = setTimeout(function () { C.bind(document); }, 120); });
 
   /* sequential single-hue ramp for heat cells */
-  var RAMP = ['#eef4fc', '#cde2fb', '#9ec5f4', '#6da7ec', '#3987e5', '#256abf', '#184f95', '#0d366b'];
+  var RAMP = ['#f5eff7', '#e6d8ec', '#d0b6db', '#b48fc4', '#9567ab', '#774690', '#5b2a6e', '#3b1a49'];
   C.heat = function (o) {
     var cols = o.cols.length, mx = o.max || Math.max.apply(null, o.rows.map(function (r) { return Math.max.apply(null, r.v); }));
     var h = '<div class="heat" style="grid-template-columns:max-content repeat(' + cols + ',minmax(0,1fr))"><span></span>' + o.cols.map(function (c, i) { return '<span class="cl">' + (o.colEvery && i % o.colEvery ? '' : c) + '</span>'; }).join('');
     o.rows.forEach(function (r) {
       h += '<span class="rl">' + r.l + '</span>' + r.v.map(function (v, i) {
         var k = v <= 0 ? -1 : Math.min(RAMP.length - 1, Math.floor(v / mx * (RAMP.length - .01)));
-        return '<span class="c" style="background:' + (k < 0 ? '#f4f5f7' : RAMP[k]) + '" data-tip="' + esc('<h5>' + r.l + ' · ' + o.cols[i] + '</h5><div class="r">' + (o.what || 'Value') + '<b>' + (o.fmt ? o.fmt(v) : v) + '</b></div>') + '"></span>';
+        return '<span class="c" style="background:' + (k < 0 ? '#f4f4f6' : RAMP[k]) + '" data-tip="' + esc('<h5>' + r.l + ' · ' + o.cols[i] + '</h5><div class="r">' + (o.what || 'Value') + '<b>' + (o.fmt ? o.fmt(v) : v) + '</b></div>') + '"></span>';
       }).join('');
     });
     return h + '</div>';
@@ -194,10 +194,10 @@
     var dots = '', rows = '';
     o.series.forEach(function (se) {
       var v = se.data[i]; if (v == null) return;
-      if (se.type !== 'col') dots += '<circle cx="' + px.toFixed(1) + '" cy="' + c.Y(v).toFixed(1) + '" r="4" fill="' + (se.color || '#2a78d6') + '" stroke="#fff" stroke-width="2"/>';
-      rows += '<div class="r"><i class="key' + (se.type === 'col' ? ' sq' : '') + '" style="background:' + (se.colors ? se.colors[i] : se.color || '#2a78d6') + '"></i>' + esc(se.name) + '<b>' + (se.fmt || o.tfmt || f.n)(v) + '</b></div>';
+      if (se.type !== 'col') dots += '<circle cx="' + px.toFixed(1) + '" cy="' + c.Y(v).toFixed(1) + '" r="4" fill="' + (se.color || '#17090c') + '" stroke="#fff" stroke-width="2"/>';
+      rows += '<div class="r"><i class="key' + (se.type === 'col' ? ' sq' : '') + '" style="background:' + (se.colors ? se.colors[i] : se.color || '#17090c') + '"></i>' + esc(se.name) + '<b>' + (se.fmt || o.tfmt || f.n)(v) + '</b></div>';
     });
-    if (o.band) rows += '<div class="r"><i class="key sq" style="background:#d5d9e0"></i>' + esc(o.band.name || 'Range') + '<b>' + (o.tfmt || f.n)(o.band.lo[i]) + '–' + (o.tfmt || f.n)(o.band.hi[i]) + '</b></div>';
+    if (o.band) rows += '<div class="r"><i class="key sq" style="background:#dddbe2"></i>' + esc(o.band.name || 'Range') + '<b>' + (o.tfmt || f.n)(o.band.lo[i]) + '–' + (o.tfmt || f.n)(o.band.hi[i]) + '</b></div>';
     xd.innerHTML = dots;
     showTip('<h5>' + esc((o.xLabel ? o.xLabel(i) : o.x[i])) + '</h5>' + rows + (o.tipNote ? '<div class="r faint">' + esc(o.tipNote(i) || '') + '</div>' : ''), e.clientX, e.clientY);
   });
