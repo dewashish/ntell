@@ -132,7 +132,7 @@
   U.tone = function (score) { return score >= 85 ? 'crit' : score >= 70 ? 'high' : score >= 50 ? 'warn' : ''; };
   U.sevName = function (score) { return score >= 85 ? 'Critical' : score >= 70 ? 'High' : score >= 50 ? 'Medium' : 'Low'; };
   U.score = function (score, lg) { return '<span class="score ' + U.tone(score) + (lg ? ' lg' : '') + '" title="Priority score ' + score + ' of 100 · ' + U.sevName(score) + '">' + score + '</span>'; };
-  U.ai = function (label) { return '<span class="ai" title="Produced by the agent. Model and rule versions are stamped on the audit record."><span class="avatar sm agent" style="width:16px;height:16px"></span>' + esc(label || (R.cfg.agent + ' draft')) + '</span>'; };
+  U.ai = function (label) { return '<span class="ai" title="Produced by the agent. Model and rule versions are stamped on the audit record."><span class="orb"></span>' + esc(label || (R.cfg.agent + ' draft')) + '</span>'; };
   /* RAG status: r, a or g. Always a dot and a word, never colour alone. */
   U.rag = function (level, label) { return '<span class="rag ' + level + '"><i></i>' + esc(label || { r: 'Red', a: 'Amber', g: 'Green' }[level]) + '</span>'; };
   U.cite = function (label, href) { return '<a class="cite" href="' + href + '">' + esc(label) + '</a>'; };

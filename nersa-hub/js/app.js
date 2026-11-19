@@ -33,8 +33,9 @@
         h += '<a href="#/' + id + '" class="' + (id === cur ? 'on' : '') + '"' + (id === cur ? ' aria-current="page"' : '') + '>' + icon(R.pages[id].icon) + '<span>' + LABEL[id] + '</span>' + (n ? '<span class="count' + (id === 'surveillance' && c.surveillanceCrit ? ' crit' : '') + '">' + n + '</span>' : '') + '</a>';
       });
     });
-    return h + '</nav><div class="side__foot"><a class="lockup" href="https://ntell.ai" target="_blank" rel="noopener" aria-label="ntell.ai">' + R.brand.lockup + '</a><b>Prototype · synthetic data</b><br>Every participant, price and record is invented.</div>';
+    return h + '</nav><div class="side__foot">' + powered() + '<br><b>Prototype · synthetic data</b><br>Every participant, price and record is invented.</div>';
   }
+  function powered() { return '<a class="powered" href="https://ntell.ai" target="_blank" rel="noopener" aria-label="Powered by ntell.ai">Powered by <img src="' + R.brand.lockup + '" alt="ntell.ai"></a>'; }
   function top(r, pg) {
     var grp = NAV.filter(function (g) { return g[1].indexOf(pg.id) >= 0; })[0];
     return '<button class="ibtn menu-btn" data-act="menu" aria-label="Menu">' + icon('menu') + '</button>' +
@@ -49,6 +50,7 @@
     sync: function (r, pg) {
       R.$('#side').innerHTML = side(pg.id); R.$('#side').classList.remove('open');
       R.$('#top').innerHTML = top(r, pg);
+      R.$('#foot').innerHTML = '<span>' + R.cfg.product + ' · prototype · all data synthetic</span>' + powered();
       var role = R.roles[R.S.role];
       document.body.classList.toggle('ro', !role.write);
       R.$('#banner').innerHTML = R.S.role === 'analyst' ? '' : '<div class="banner">' + icon('eye') + '<span><b>Viewing as ' + esc(role.name) + '.</b> ' + esc(role.note) + '</span><button class="btn sm" data-act="role-reset">Return to analyst view</button></div>';

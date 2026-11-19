@@ -109,8 +109,14 @@ svg { display: block; }
 .nav .count { margin-left: auto; font: 500 10.5px/1 var(--mono); color: var(--ink-3); background: var(--bg); border: 1px solid var(--line); border-radius: 3px; padding: 3px 5px; }
 .nav .count.crit { color: var(--crit); border-color: var(--crit-line); background: var(--crit-bg); }
 .side__foot { flex: none; border-top: 1px solid var(--line); padding: 12px 14px; font-size: 11px; color: var(--ink-3); line-height: 1.4; }
-.side__foot .lockup { display: block; width: 92px; margin: 0 0 8px -5px; }
-.side__foot .lockup svg { width: 100%; height: auto; }
+.powered { display: inline-flex; align-items: center; gap: 2px; color: var(--ink-3); font-size: 11px; text-decoration: none; white-space: nowrap; }
+.powered:hover { text-decoration: none; color: var(--ink); }
+.powered img { height: 26px; width: auto; display: block; }
+.side__foot .powered { margin: 0 0 6px; }
+.pagefoot { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: auto; padding: 10px 20px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 11.5px; }
+.pagefoot .powered { margin-left: auto; }
+#view { flex: 1; }
+.main { min-height: 100vh; }
 .side__foot b { color: var(--ink-2); font-weight: 600; }
 
 .main { min-width: 0; display: flex; flex-direction: column; }
@@ -133,7 +139,7 @@ svg { display: block; }
 .top__meta { display: flex; align-items: center; gap: 10px; flex: none; min-width: 0; }
 .watch { display: flex; align-items: center; gap: 7px; height: 30px; padding: 0 10px; border: 1px solid var(--line); border-radius: var(--r); color: var(--ink-2); text-decoration: none; white-space: nowrap; background: var(--bg); }
 .watch:hover { background: var(--bg-2); text-decoration: none; }
-.pulse { width: 9px; height: 9px; border-radius: 50%; background: radial-gradient(circle at 38% 30%, #ff6f86 0, #e5174a 42%, #c20e36 80%, #930a29 100%); position: relative; flex: none; }
+.pulse { width: 11px; height: 11px; border-radius: 50%; background: var(--orb) center / cover no-repeat; position: relative; flex: none; }
 .pulse::after { content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 1px solid var(--brand); opacity: 0; animation: pulse 2.4s ease-out infinite; }
 @keyframes pulse { 0% { transform: scale(.6); opacity: .7; } 100% { transform: scale(1.5); opacity: 0; } }
 .clock { font: 500 11.5px/1 var(--mono); color: var(--ink-2); white-space: nowrap; }
@@ -141,9 +147,9 @@ svg { display: block; }
 .user { display: flex; align-items: center; gap: 8px; border: 0; background: none; padding: 0; text-align: left; }
 .avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--navy); color: #fff; font: 600 11px/28px var(--sans); text-align: center; flex: none; }
 .avatar.sm { width: 20px; height: 20px; font-size: 9px; line-height: 20px; }
-.avatar.agent { background: #fff var(--ava) center / cover no-repeat; color: transparent; box-shadow: inset 0 0 0 1px var(--line-2); }
-.avatar.lg { width: 56px; height: 56px; }
-.avatar.agent.lg { background-image: var(--ava-lg); }
+.avatar.agent, .orb { background: var(--orb) center / cover no-repeat; color: transparent; border-radius: 50%; }
+.orb { display: inline-block; width: 14px; height: 14px; flex: none; }
+.avatar.lg { width: 52px; height: 52px; }
 
 .banner { display: flex; align-items: center; gap: 10px; padding: 7px 20px; background: var(--warn-bg); border-bottom: 1px solid var(--warn-line); color: #5c4100; font-size: 12px; }
 .banner svg { width: 14px; height: 14px; flex: none; }
@@ -386,6 +392,7 @@ button.chip:hover { background: var(--bg-2); border-color: var(--ink-4); }
 .note.crit { border-left-color: var(--crit-fill); background: #fff5f6; }
 .note.good { border-left-color: var(--good); background: #f4faf6; }
 .empty { padding: 28px 16px; text-align: center; color: var(--ink-3); }
+.empty::before { content: ""; display: block; width: 22px; height: 22px; margin: 0 auto 10px; background: var(--orb) center / cover no-repeat; opacity: .9; }
 pre.code { margin: 0; padding: 10px 12px; background: #f4f4f6; border: 1px solid var(--line); border-radius: var(--r); font: 400 11.5px/1.55 var(--mono); color: #2a2530; overflow-x: auto; white-space: pre; }
 pre.code .k { color: #5b2a6e; font-weight: 500; } pre.code .s { color: #96500d; } pre.code .c { color: #8f8a98; }
 .hash { font: 400 11px/1.4 var(--mono); color: var(--ink-3); overflow-wrap: anywhere; }

@@ -18,6 +18,18 @@ python3 -m http.server 4173      # from the repository root
 Open http://127.0.0.1:4173/nersa-hub/. It also opens straight from disk
 (`index.html`), with no server.
 
+## Deploy to Vercel
+
+The folder is a static site with its own `vercel.json` (no build, `noindex`
+header, long cache on fonts). With a Vercel token in `VERCEL_TOKEN`:
+
+```bash
+nersa-hub/tools/deploy-vercel.sh        # project nersa-ntell → nersa-ntell.vercel.app
+```
+
+Or import the repository in the Vercel dashboard with **Root Directory** set
+to `nersa-hub`, framework preset **Other**, and no build command.
+
 To hand it to someone as one file:
 
 ```bash
@@ -78,7 +90,7 @@ js/agent.js         The agent: brief, worklist, watches, approvals, question eng
 js/p-*.js           One file per navigation group
 js/app.js           Navigation, top bar, role view, boot
 tools/bundle.py     Single-file build
-js/brand.js         ntell.ai logo, lockup and AVA avatar, inlined from /assets
+js/brand.js         ntell.ai icon, lockup and signal orb, inlined from /assets
 assets/fonts/       Stack Sans, Newsreader and JetBrains Mono, copied from the site
 ```
 
@@ -89,7 +101,9 @@ No framework and no build step. Scripts are plain files loaded in order.
 The app wears the ntell.ai brand from the company site: ink `#17090C`,
 crimson `#D7143C` and paper `#F4F4F6` on a white page, Stack Sans for
 everything you read, Newsreader for the one statement at the top of the
-brief, and the signal orb as the agent's on-watch light. Plum `#5B2A6E` is
+brief, and the signal orb wherever the agent appears: its on-watch light, its
+name beside every draft and answer, and the empty states. Every page carries
+"Powered by ntell.ai". Plum `#5B2A6E` is
 the quiet second colour for selection, citations and bars.
 
 Red, amber and green are kept for status only and always come with a word

@@ -131,7 +131,7 @@
       return h + '<div class="note">I could not map that to a certified dataset with confidence, so I have not guessed. In this prototype the answers are scripted for the questions below; in delivery the same panel answers any question the curated datasets can support, and says so when they cannot.</div><div class="row wrap mt8">' + AG.suggest.map(function (s) { return '<button class="chip" data-act="ask-suggest" data-q="' + esc(s) + '">' + esc(s) + '</button>'; }).join('') + '</div></div></article>';
     }
     var pinned = R.S.pins.some(function (p) { return p.id === it.id; }), viz = it.viz();
-    h += '<div class="lead">' + it.lead() + '</div>' + (viz ? '<div class="card mt12"><div class="card__b' + (viz.indexOf('<table') === 0 ? ' flush' : '') + '">' + viz + '</div></div>' : '');
+    h += '<div class="row mb8" style="margin-bottom:6px">' + U.ai(A) + '</div><div class="lead">' + it.lead() + '</div>' + (viz ? '<div class="card mt12"><div class="card__b' + (viz.indexOf('<table') === 0 ? ' flush' : '') + '">' + viz + '</div></div>' : '');
     h += '<details class="how"' + (idx === 0 ? '' : '') + '><summary>How this was answered<span class="grow"></span><span class="src">' + it.ds.length + ' certified datasets · ' + f.n(it.rows) + ' rows · ' + f.n(it.ms) + ' ms · data as at 07:41</span></summary><div>' +
       '<div class="row wrap mb8">' + it.ds.map(function (d) { return '<a class="tag good" href="#/hub">' + icon('check') + esc(d) + '</a>'; }).join('') + '</div>' + U.sql(it.sql) +
       '<div class="mt8"><b style="font-size:12px">Checks made before answering</b><ul class="trace mt4">' + it.checks.map(function (c) { return '<li>' + icon('check') + esc(c) + '</li>'; }).join('') + '</ul></div><div class="mt8">' + AG.stamp() + '</div></div></details>';
@@ -171,7 +171,7 @@
     id: 'agent', title: 'Agent', group: 'Workspace', icon: 'agent',
     render: function () {
       var tab = R.tab('agent', 'activity'), pend = AG.pending(), all = AG.watches.concat(R.S.watches);
-      var h = '<div class="agenthead"><span class="avatar lg agent" role="img" aria-label="' + A + '"></span><div class="grow">' + U.phead(A + ', the always-on analyst', 'Screens every interval, correlates across sources, explains what it finds and ranks it. It proposes; people decide. Everything it does is logged with its model and rule versions.', null,
+      var h = '<div class="agenthead"><span class="avatar lg agent" role="img" aria-label="ntell.ai signal orb"></span><div class="grow">' + U.phead(A + ', the always-on analyst', 'Screens every interval, correlates across sources, explains what it finds and ranks it. It proposes; people decide. Everything it does is logged with its model and rule versions.', null,
         '<span class="watch"><span class="pulse"></span>On watch · last cycle <span class="mono" id="watch-last">' + AG.activity[0][0] + '</span></span>') + '</div></div>';
       h += U.kpis([
         { label: 'Events screened today', value: f.n(412860), note: 'since 00:00' },
